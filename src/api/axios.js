@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://cmkerala-backend.onrender.com/api/v1' : 'http://localhost:8000/api/v1'),
   headers: {
     'Content-Type': 'application/json',
   },
@@ -64,7 +64,7 @@ api.interceptors.response.use(
       if (refreshToken) {
         try {
           const res = await axios.post(
-            `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/auth/token/refresh/`,
+            `${api.defaults.baseURL}/auth/token/refresh/`,
             { refresh: refreshToken }
           );
 
